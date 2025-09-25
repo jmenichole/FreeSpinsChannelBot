@@ -3,10 +3,23 @@ require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+// Import utilities
+const { processMessage } = require('./utils/linkProcessor');
+const TelegramBot = require('./utils/telegramBot');
+
+const client = new Client({ 
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent
+  ] 
+});
 client.commands = new Collection();
 
 const vettedCasinos = require('./vettedCasinos.json');
+
+// Initialize Telegram bot
+const telegramBot = new TelegramBot('8035077071:AAG9o-wlKbYn90X_PJyHSReVhVQEEAR3fHw');
 
 // Load commands
 const commandsPath = path.join(__dirname, 'commands');
@@ -52,6 +65,38 @@ ${originalMsg}`,
     if (action === 'reject') {
       await interaction.update({ content: `❌ Rejected by <@${interaction.user.id}>`, components: [] });
     }
+  }
+});
+
+// Monitor messages for links to forward to Telegram
+client.on('messageCreate', async message => {
+  // Skip bot messages and messages without content
+  if (message.author.bot || !message.content) return;
+  
+  // Check if this is a monitored channel (you can configure this via environment variable)
+  const monitoredChannelId = process.env.MONITORED_CHANNEL_ID;
+  if (!monitoredChannelId || message.channelId !== monitoredChannelId) return;
+  
+  try {
+    // Process the message for links
+    const messageData = processMessage(message.content);
+    
+    if (messageData && messageData.hasLinks) {
+      console.log(`Found ${messageData.links.length} links in message from ${message.author.username}`);
+      
+      // Format and send to Telegram
+      const telegramMessage = telegramBot.formatMessage(messageData, message);
+      const telegramChatId = process.env.TELEGRAM_CHAT_ID;
+      
+      if (telegramChatId) {
+        await telegramBot.sendMessage(telegramChatId, telegramMessage);
+        console.log('✅ Successfully forwarded links to Telegram');
+      } else {
+        console.warn('⚠️ No Telegram chat ID configured');
+      }
+    }
+  } catch (error) {
+    console.error('❌ Error processing message for Telegram forwarding:', error);
   }
 });
 
