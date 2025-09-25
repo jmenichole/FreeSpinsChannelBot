@@ -1,0 +1,43 @@
+{
+  "stake.com": {
+    "domain": "stake.com",
+    "referralParam": "ref",
+    "userReferralCode": "yourref123",
+    "patterns": [
+      "stake\\.com",
+      "stake\\.us"
+    ]
+  },
+  "bc.game": {
+    "domain": "bc.game",
+    "referralParam": "ref",
+    "userReferralCode": "yourref456",
+    "patterns": [
+      "bc\\.game"
+    ]
+  },
+  "duelbits.com": {
+    "domain": "duelbits.com",
+    "referralParam": "ref",
+    "userReferralCode": "yourref789",
+    "patterns": [
+      "duelbits\\.com"
+    ]
+  },
+  "rollbit.com": {
+    "domain": "rollbit.com",
+    "referralParam": "ref",
+    "userReferralCode": "yourref321",
+    "patterns": [
+      "rollbit\\.com"
+    ]
+  },
+  "roobet.com": {
+    "domain": "roobet.com",
+    "referralParam": "ref",
+    "userReferralCode": "yourref654",
+    "patterns": [
+      "roobet\\.com"
+    ]
+  }
+}
