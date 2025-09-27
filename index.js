@@ -9,6 +9,7 @@ const TelegramBot = require('./utils/telegramBot');
 const CatchupProcessor = require('./utils/catchup');
 const DiscordLogger = require('./utils/discordLogger');
 const { handleTelegramReferralCommand } = require('./utils/telegramCommands');
+const sentStore = require('./utils/sentStore');
 
 const client = new Client({ 
   intents: [
@@ -93,6 +94,8 @@ client.on('messageCreate', async message => {
     return;
   }
   if (message.channelId !== monitoredChannelId) return;
+  // Skip if already forwarded today
+  if (sentStore.has(message.id)) return;
   
   try {
     // Process the full message (content + embeds) for links
@@ -108,6 +111,7 @@ client.on('messageCreate', async message => {
       if (telegramChatId) {
         await telegramBot.sendMessage(telegramChatId, telegramMessage);
         console.log('✅ Successfully forwarded links to Telegram');
+        sentStore.add(message.id);
       } else {
         console.warn('⚠️ No TELEGRAM_CHAT_ID configured; set it in your .env');
       }
@@ -118,6 +122,8 @@ client.on('messageCreate', async message => {
 });
 
 async function onBotReady() {
+  // Load sentStore for duplicate prevention
+  try { sentStore.load(); } catch {}
   console.log(`Bot ready as ${client.user.tag}`);
 
   // Initialize Discord logger

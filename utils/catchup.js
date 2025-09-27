@@ -136,6 +136,10 @@ class CatchupProcessor {
           if (sent) {
             sentCount++;
             console.log(`✅ Sent message from ${message.author.username} (${message.createdAt.toLocaleString()})`);
+            try {
+              const sentStore = require('./sentStore');
+              sentStore.add(message.id);
+            } catch {}
           }
 
           processedCount++;
