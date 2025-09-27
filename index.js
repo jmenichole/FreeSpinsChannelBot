@@ -78,19 +78,25 @@ ${originalMsg}`,
 
 // Monitor messages for links to forward to Telegram
 client.on('messageCreate', async message => {
-  // Skip bot messages - allow messages without content but with embeds
-  if (message.author.bot) return;
+  // Skip only our own bot's messages to avoid loops
+  if (message.author?.id === client.user?.id) return;
   
   // Skip if no content and no embeds
-  if (!message.content && (!message.embeds || message.embeds.length === 0)) return;
+  if (!message.content && (!message.embeds || message.embeds.length === 0)) {
+    return; // nothing to process
+  }
   
   // Check if this is a monitored channel (you can configure this via environment variable)
   const monitoredChannelId = process.env.MONITORED_CHANNEL_ID;
-  if (!monitoredChannelId || message.channelId !== monitoredChannelId) return;
+  if (!monitoredChannelId) {
+    console.warn('⚠️ MONITORED_CHANNEL_ID not set; skipping message');
+    return;
+  }
+  if (message.channelId !== monitoredChannelId) return;
   
   try {
     // Process the full message (content + embeds) for links
-    const messageData = processMessage(message);
+  const messageData = processMessage(message);
     
     if (messageData && messageData.hasLinks) {
       console.log(`Found ${messageData.links.length} links in message from ${message.author.username}`);
@@ -103,7 +109,7 @@ client.on('messageCreate', async message => {
         await telegramBot.sendMessage(telegramChatId, telegramMessage);
         console.log('✅ Successfully forwarded links to Telegram');
       } else {
-        console.warn('⚠️ No Telegram chat ID configured');
+        console.warn('⚠️ No TELEGRAM_CHAT_ID configured; set it in your .env');
       }
     }
   } catch (error) {
@@ -111,23 +117,23 @@ client.on('messageCreate', async message => {
   }
 });
 
-client.once('clientReady', async () => {
+async function onBotReady() {
   console.log(`Bot ready as ${client.user.tag}`);
-  
+
   // Initialize Discord logger
   const discordLogger = new DiscordLogger(client);
-  
+
   // Log startup
   await discordLogger.logStartup();
-  
+
   // Initialize catchup processor
   const catchupProcessor = new CatchupProcessor(client, telegramBot);
-  
+
   // Run one-time catchup for today's messages (only runs once per day)
   console.log('🔄 Checking for catchup messages from today...');
   try {
     const result = await catchupProcessor.runOnceCatchup();
-    
+
     if (result.skipped) {
       console.log('ℹ️  Catchup already completed for today');
     } else if (result.processed === 0) {
@@ -135,15 +141,15 @@ client.once('clientReady', async () => {
     } else {
       console.log(`✅ Catchup complete: ${result.processed} processed, ${result.sent} sent to Telegram`);
     }
-    
+
     // Log catchup results to Discord
     await discordLogger.logCatchup(result);
-    
+
   } catch (error) {
     console.error('❌ Error during catchup process:', error);
     await discordLogger.logError(error, 'catchup process');
   }
-  
+
   console.log('🚀 Bot is now monitoring for new messages...');
 
   // Start Telegram command polling (non-blocking) with a simple lock guard
@@ -203,6 +209,9 @@ client.once('clientReady', async () => {
       }
     }
   })();
-});
+}
+
+client.once('clientReady', onBotReady);
+client.once('ready', onBotReady);
 
 client.login(process.env.DISCORD_TOKEN);
