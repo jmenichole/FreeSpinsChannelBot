@@ -125,9 +125,9 @@ class CatchupProcessor {
         // Process the full message (content + embeds) for link replacement
         const result = await processMessage(message.fullMessage || message);
         
-        if (result.hasModifiedLinks || result.links.length > 0) {
-          // Create formatted message for Telegram
-          const telegramMessage = this.formatTelegramMessage(message, result);
+        if (result && (result.hasModifiedLinks || result.links.length > 0)) {
+          // Create formatted message for Telegram using the same minimal formatter as real-time
+          const telegramMessage = this.telegramBot.formatMessage(result, message.fullMessage || message);
           
           // Send to Telegram
           const telegramChatId = process.env.TELEGRAM_CHAT_ID;
@@ -153,38 +153,7 @@ class CatchupProcessor {
     return { processed: processedCount, sent: sentCount };
   }
 
-  /**
-   * Format message for Telegram (clean format)
-   */
-  formatTelegramMessage(message, linkResult) {
-    // Clean header with better spacing
-    let telegramText = `🎰 <b>Free Spins Alert</b> <i>(Catchup)</i>\n`;
-    telegramText += `━━━━━━━━━━━━━━━━━━━━\n\n`;
-    
-    // Links section with cleaner format
-    linkResult.links.forEach((link, index) => {
-      telegramText += `� <b>${this.getDomainName(link.processed)}</b>\n`;
-      telegramText += `${link.processed}\n`;
-      
-      if (link.modified) {
-        telegramText += `✅ <i>Referral applied</i>\n`;
-      }
-      telegramText += `\n`;
-    });
-    
-    // Source info in a compact format
-    telegramText += `📍 <i>From: ${message.channelName}</i>\n`;
-    telegramText += `👤 <i>By: ${message.author.username}</i>\n`;
-    telegramText += `⏰ <i>Posted: ${message.createdAt.toLocaleString()}</i>\n`;
-    
-    // Original message content (cleaned up)
-    const originalText = this.cleanOriginalMessage(linkResult.cleanedMessage, linkResult.links);
-    if (originalText && originalText.length > 0) {
-      telegramText += `\n💬 <i>"${originalText}"</i>`;
-    }
-    
-    return telegramText;
-  }
+  // Legacy formatter removed in favor of telegramBot.formatMessage
 
   /**
    * Extract bonus information from message text

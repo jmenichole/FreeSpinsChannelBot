@@ -146,8 +146,31 @@ client.once('clientReady', async () => {
   
   console.log('🚀 Bot is now monitoring for new messages...');
 
-  // Start Telegram command polling (non-blocking)
+  // Start Telegram command polling (non-blocking) with a simple lock guard
   (async () => {
+    const fs = require('fs');
+    const path = require('path');
+    const lockFile = path.join(__dirname, 'logs', 'telegram-polling.lock');
+
+    // Ensure logs directory exists
+    try { fs.mkdirSync(path.join(__dirname, 'logs'), { recursive: true }); } catch {}
+
+    if (fs.existsSync(lockFile)) {
+      console.warn('⚠️ Telegram polling already running (lock file exists). Skipping starting another poller.');
+      return;
+    }
+    try {
+      fs.writeFileSync(lockFile, String(process.pid));
+    } catch (e) {
+      console.warn('Could not create polling lock file, continuing cautiously:', e.message);
+    }
+
+    const cleanup = () => {
+      try { fs.unlinkSync(lockFile); } catch {}
+    };
+    process.on('exit', cleanup);
+    process.on('SIGINT', () => { cleanup(); process.exit(0); });
+    process.on('SIGTERM', () => { cleanup(); process.exit(0); });
     // Register Telegram commands for better UX
     try {
       await telegramBot.setMyCommands([
