@@ -69,15 +69,18 @@ class TelegramBot {
 
   formatMessage(messageData, discordMessage) {
     let message = '';
-    
+
     const bonusInfo = this.extractBonusInfo(messageData.originalMessage);
-    
+
     if (bonusInfo) {
       message += `🎰 <b>${bonusInfo}</b>\n\n`;
     }
-    
+
     messageData.links.forEach((linkData, index) => {
-      message += `🔗 ${linkData.processed}\n`;
+      const url = linkData.processed || linkData.original;
+      const casinoName = this.getCasinoNameFromUrl(url);
+      message += `🏷️ <b>${casinoName}</b>\n`;
+      message += `🔗 ${url}\n`;
       if (linkData.modified) {
         message += `✅ <i>Referral applied</i>\n`;
       }
@@ -85,8 +88,27 @@ class TelegramBot {
         message += `\n`;
       }
     });
-    
+
     return message;
+  }
+
+  getCasinoNameFromUrl(url) {
+    try {
+      const { hostname } = new URL(url);
+      const host = hostname.replace(/^www\./i, '');
+      const parts = host.split('.');
+      const commonSubs = ['www', 'app', 'click', 'go', 'm'];
+      let label = parts[0];
+      if (parts.length >= 3 && commonSubs.includes(parts[0])) {
+        label = parts[1];
+      }
+      const name = label
+        .replace(/[-_]+/g, ' ')
+        .replace(/\b\w/g, c => c.toUpperCase());
+      return name || 'Casino';
+    } catch (e) {
+      return 'Casino';
+    }
   }
 
   extractBonusInfo(originalMessage) {
