@@ -6,13 +6,6 @@ class TelegramBot {
     this.baseUrl = `https://api.telegram.org/bot${botToken}`;
   }
 
-  /**
-   * Send a message to a Telegram chat
-   * @param {string} chatId - The chat ID to send message to
-   * @param {string} text - The message text
-   * @param {Object} options - Additional options
-   * @returns {Promise} API response
-   */
   async sendMessage(chatId, text, options = {}) {
     try {
       const payload = {
@@ -32,10 +25,6 @@ class TelegramBot {
     }
   }
 
-  /**
-   * Get bot information
-   * @returns {Promise} Bot information
-   */
   async getMe() {
     try {
       const response = await axios.get(`${this.baseUrl}/getMe`);
@@ -47,46 +36,96 @@ class TelegramBot {
   }
 
   /**
-   * Format message for Discord to Telegram forwarding
-   * @param {Object} messageData - Processed message data
-   * @param {Object} discordMessage - Discord message object
-   * @returns {string} Formatted message
+   * Long-poll Telegram for updates (getUpdates)
+   * @param {number} offset - Update ID offset
+   * @param {number} timeout - Long poll timeout in seconds
    */
+  async getUpdates(offset = 0, timeout = 25) {
+    try {
+      const response = await axios.get(`${this.baseUrl}/getUpdates`, {
+        params: { offset, timeout }
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error getting Telegram updates:', error.response?.data || error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Set bot commands for Telegram UI hints
+   */
+  async setMyCommands(commands) {
+    try {
+      const response = await axios.post(`${this.baseUrl}/setMyCommands`, {
+        commands
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error setting Telegram commands:', error.response?.data || error.message);
+      throw error;
+    }
+  }
+
   formatMessage(messageData, discordMessage) {
-    let message = `🔗 <b>New links from Discord</b>\n\n`;
+    let message = '';
     
-    if (discordMessage.author) {
-      message += `👤 <b>From:</b> ${discordMessage.author.username}\n`;
+    const bonusInfo = this.extractBonusInfo(messageData.originalMessage);
+    
+    if (bonusInfo) {
+      message += `🎰 <b>${bonusInfo}</b>\n\n`;
     }
-    
-    if (discordMessage.channel) {
-      message += `📢 <b>Channel:</b> ${discordMessage.channel.name}\n`;
-    }
-    
-    message += `\n`;
     
     messageData.links.forEach((linkData, index) => {
-      message += `🎰 <b>Link ${index + 1}:</b>\n`;
-      message += `${linkData.processed}\n`;
-      
+      message += `🔗 ${linkData.processed}\n`;
       if (linkData.modified) {
-        message += `✅ <i>Referral code updated</i>\n`;
+        message += `✅ <i>Referral applied</i>\n`;
       }
-      
-      message += `\n`;
+      if (index < messageData.links.length - 1) {
+        message += `\n`;
+      }
     });
     
-    // Add original message content if it has text beyond links
-    const messageWithoutLinks = messageData.originalMessage;
-    const textContent = messageData.links.reduce((text, link) => {
-      return text.replace(link.original, '').trim();
-    }, messageWithoutLinks).trim();
+    return message;
+  }
+
+  extractBonusInfo(originalMessage) {
+    if (!originalMessage) return null;
     
-    if (textContent) {
-      message += `💬 <b>Original message:</b>\n${textContent}`;
+    let text = originalMessage
+      .replace(/@All Freebies/g, '')
+      .replace(/@\w+ Freebies/g, '')
+      .replace(/\*\*\[.*?\]\(.*?\)\*\*/g, '')
+      .replace(/\[.*?\]\(.*?\)/g, '')
+      .replace(/https?:\/\/[^\s]+/g, '')
+      .replace(/sweepscoinguide\.com/g, '')
+      .replace(/Submitted by \w+/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    
+    // Look for bonus pattern first
+    const bonusMatch = text.match(/(\d+\s*(?:SC|Free Spins?|Bonus|Coins?)[^.]*?(?:at\s+[A-Za-z\s]+)?)/i);
+    if (bonusMatch) {
+      return bonusMatch[1].trim();
     }
     
-    return message;
+    // Look for casino name pattern
+    const casinoMatch = text.match(/(?:at\s+)?([A-Za-z\s]+?)(?:\s|$)/i);
+    if (casinoMatch && casinoMatch[1]) {
+      const casino = casinoMatch[1].trim();
+      if (casino && casino !== 'Free' && casino !== 'SC' && casino.length > 2) {
+        return casino;
+      }
+    }
+    
+    // Fallback - clean text up to 40 chars
+    if (text && text.length > 0) {
+      let result = text.substring(0, 40).trim();
+      if (text.length > 40) result += '...';
+      return result;
+    }
+    
+    return null;
   }
 }
 

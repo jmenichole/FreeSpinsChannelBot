@@ -3,3 +3,15 @@ config.json
 node_modules/
 *.log
 test-temp/
+
+# Ignore logs and runtime artifacts
+logs/
+!logs/.gitkeep
+*.pid
+*.flag
+
+# Ignore editor/system cruft
+.DS_Store
+
+# Ignore backup files
+*.backup

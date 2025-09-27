@@ -1,6 +1,11 @@
 const { REST, Routes } = require('discord.js');
-const { clientId, guildId, token } = require('./config.json');
+require('dotenv').config();
 const fs = require('fs');
+
+// Get config from environment variables
+const clientId = '1378601296386592809'; // Extract from DISCORD_TOKEN
+const guildId = process.env.GUILD_ID;
+const token = process.env.DISCORD_TOKEN;
 
 const commands = [];
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));

@@ -1,43 +1,284 @@
 {
+  "trustdice.win": {
+    "domain": "trustdice.win",
+    "referralParam": "ref",
+    "userReferralCode": "u_jmenichole",
+    "patterns": ["trustdice\\.win"]
+  },
+  "stake.us": {
+    "domain": "stake.us",
+    "referralParam": "c",
+    "userReferralCode": "Jmenichole",
+    "patterns": ["stake\\.us"]
+  },
+  "bitsler.io": {
+    "domain": "bitsler.io",
+    "referralParam": "ref",
+    "userReferralCode": "jmenichole",
+    "patterns": ["bitsler\\.io"]
+  },
+  "rolla.com": {
+    "domain": "rolla.com",
+    "referralParam": "raf",
+    "userReferralCode": "3873",
+    "patterns": ["rolla\\.com"]
+  },
+  "punt.com": {
+    "domain": "punt.com",
+    "referralParam": "c",
+    "userReferralCode": "cg60pd",
+    "patterns": ["punt\\.com"]
+  },
+  "shuffle.us": {
+    "domain": "shuffle.us",
+    "referralParam": "r",
+    "userReferralCode": "jmenichole",
+    "patterns": ["shuffle\\.us"]
+  },
+  "wowvegas.com": {
+    "domain": "wowvegas.com",
+    "referralParam": "raf",
+    "userReferralCode": "3615494",
+    "patterns": ["wowvegas\\.com"]
+  },
+  "pulsz.com": {
+    "domain": "pulsz.com",
+    "referralParam": "invited_by",
+    "userReferralCode": "utfk4r",
+    "patterns": ["pulsz\\.com"]
+  },
+  "modo.us": {
+    "domain": "modo.us",
+    "referralParam": "referralCode",
+    "userReferralCode": "61MN6A",
+    "patterns": ["modo\\.us"]
+  },
+  "mcluck.com": {
+    "domain": "mcluck.com",
+    "referralParam": "r",
+    "userReferralCode": "61119407/908900038",
+    "patterns": ["mcluck\\.com"]
+  },
+  "crowncoinscasino.com": {
+    "domain": "crowncoinscasino.com",
+    "referralParam": "",
+    "userReferralCode": "",
+    "patterns": ["crowncoinscasino\\.com"]
+  },
+  "chanced.com": {
+    "domain": "chanced.com",
+    "referralParam": "c",
+    "userReferralCode": "ysa096",
+    "patterns": ["chanced\\.com"]
+  },
+  "pulszbingo.com": {
+    "domain": "pulszbingo.com",
+    "referralParam": "invited_by",
+    "userReferralCode": "eg6mbf",
+    "patterns": ["pulszbingo\\.com"]
+  },
+  "zulacasino.com": {
+    "domain": "zulacasino.com",
+    "referralParam": "signup",
+    "userReferralCode": "221ddd92-862e-45d8-acc0-4cd2c26f7cdd",
+    "patterns": ["zulacasino\\.com"]
+  },
+  "fortunecoins.com": {
+    "domain": "fortunecoins.com",
+    "referralParam": "signup",
+    "userReferralCode": "3c08936f-8979-4f87-b377-efdbff519029",
+    "patterns": ["fortunecoins\\.com"]
+  },
+  "high5casino.com": {
+    "domain": "high5casino.com",
+    "referralParam": "adId",
+    "userReferralCode": "INV001:Jmenichole",
+    "patterns": ["high5casino\\.com"]
+  },
+  "scrooge.casino": {
+    "domain": "scrooge.casino",
+    "referralParam": "",
+    "userReferralCode": "674fb6c5fbffe157e92556c8-1740545357394",
+    "patterns": ["scrooge\\.casino"]
+  },
+  "americanluck.com": {
+    "domain": "americanluck.com",
+    "referralParam": "signup",
+    "userReferralCode": "e360918f-8986-4dec-9823-a902d3f4936a",
+    "patterns": ["americanluck\\.com"]
+  },
+  "sportzino.com": {
+    "domain": "sportzino.com",
+    "referralParam": "signup",
+    "userReferralCode": "8a105ba6-7ada-45c8-b021-f478ac03c7c4",
+    "patterns": ["sportzino\\.com"]
+  },
+  "slips.com": {
+    "domain": "slips.com",
+    "referralParam": "code",
+    "userReferralCode": "6901",
+    "patterns": ["slips\\.com"]
+  },
+  "app.prizepicks.com": {
+    "domain": "app.prizepicks.com",
+    "referralParam": "invite_code",
+    "userReferralCode": "PR-N0MTQX8",
+    "patterns": ["app\\.prizepicks\\.com"]
+  },
+  "click.dabble.com": {
+    "domain": "click.dabble.com",
+    "referralParam": "",
+    "userReferralCode": "GaFA/js1v7hqv",
+    "patterns": ["click\\.dabble\\.com"]
+  },
+  "gamba.com": {
+    "domain": "gamba.com",
+    "referralParam": "c",
+    "userReferralCode": "Jme",
+    "patterns": ["gamba\\.com"]
+  },
+  "goated.com": {
+    "domain": "goated.com",
+    "referralParam": "r",
+    "userReferralCode": "YDRZLJ",
+    "patterns": ["goated\\.com"]
+  },
+  "junglebet.com": {
+    "domain": "junglebet.com",
+    "referralParam": "r",
+    "userReferralCode": "jmenichole",
+    "patterns": ["junglebet\\.com"]
+  },
+  "shuffle.com": {
+    "domain": "shuffle.com",
+    "referralParam": "r",
+    "userReferralCode": "jHR7JnWRPF",
+    "patterns": ["shuffle\\.com"]
+  },
   "stake.com": {
     "domain": "stake.com",
-    "referralParam": "ref",
-    "userReferralCode": "yourref123",
-    "patterns": [
-      "stake\\.com",
-      "stake\\.us"
-    ]
+    "referralParam": "c",
+    "userReferralCode": "LAYP68hb",
+    "patterns": ["stake\\.com"]
   },
-  "bc.game": {
-    "domain": "bc.game",
-    "referralParam": "ref",
-    "userReferralCode": "yourref456",
-    "patterns": [
-      "bc\\.game"
-    ]
+  "metawin.com": {
+    "domain": "metawin.com",
+    "referralParam": "",
+    "userReferralCode": "jmenichole007",
+    "patterns": ["metawin\\.com"]
   },
-  "duelbits.com": {
-    "domain": "duelbits.com",
-    "referralParam": "ref",
-    "userReferralCode": "yourref789",
-    "patterns": [
-      "duelbits\\.com"
-    ]
+  "themoneyfactory.com": {
+    "domain": "themoneyfactory.com",
+    "referralParam": "referralcode",
+    "userReferralCode": "dcd04112-f619-48ee-aec6-2e5a84c9a6d2",
+    "patterns": ["themoneyfactory\\.com"]
   },
-  "rollbit.com": {
-    "domain": "rollbit.com",
-    "referralParam": "ref",
-    "userReferralCode": "yourref321",
-    "patterns": [
-      "rollbit\\.com"
-    ]
+  "thrill.com": {
+    "domain": "thrill.com",
+    "referralParam": "r",
+    "userReferralCode": "3E8477CE-1756119554",
+    "patterns": ["thrill\\.com"]
   },
-  "roobet.com": {
-    "domain": "roobet.com",
-    "referralParam": "ref",
-    "userReferralCode": "yourref654",
-    "patterns": [
-      "roobet\\.com"
-    ]
+  "spinblitz.com": {
+    "domain": "spinblitz.com",
+    "referralParam": "r",
+    "userReferralCode": "606f64a3/1246446739",
+    "patterns": ["spinblitz\\.com"]
+  },
+  "hellomillions.com": {
+    "domain": "hellomillions.com",
+    "referralParam": "r",
+    "userReferralCode": "26d6760f/1236643867",
+    "patterns": ["hellomillions\\.com"]
+  },
+  "megabonanza.com": {
+    "domain": "megabonanza.com",
+    "referralParam": "r",
+    "userReferralCode": "72781897",
+    "patterns": ["megabonanza\\.com"]
+  },
+  "realprize.com": {
+    "domain": "realprize.com",
+    "referralParam": "refer",
+    "userReferralCode": "317136",
+    "patterns": ["realprize\\.com"]
+  },
+  "luckybird.vip": {
+    "domain": "luckybird.vip",
+    "referralParam": "c",
+    "userReferralCode": "c_jmenichole",
+    "patterns": ["luckybird\\.vip"]
+  },
+  "playfame.com": {
+    "domain": "playfame.com",
+    "referralParam": "r",
+    "userReferralCode": "1275975417",
+    "patterns": ["playfame\\.com"]
+  },
+  "jackpota.com": {
+    "domain": "jackpota.com",
+    "referralParam": "r",
+    "userReferralCode": "85453282",
+    "patterns": ["jackpota\\.com"]
+  },
+  "myprize.us": {
+    "domain": "myprize.us",
+    "referralParam": "invite",
+    "userReferralCode": "jmenichole",
+    "patterns": ["myprize\\.us"]
+  },
+  "winna.com": {
+    "domain": "winna.com",
+    "referralParam": "r",
+    "userReferralCode": "jmenichole",
+    "patterns": ["winna\\.com"]
+  },
+  "play.clubs.poker": {
+    "domain": "play.clubs.poker",
+    "referralParam": "referralCode",
+    "userReferralCode": "104192",
+    "patterns": ["play\\.clubs\\.poker"]
+  },
+  "lonestarcasino.com": {
+    "domain": "lonestarcasino.com",
+    "referralParam": "refer",
+    "userReferralCode": "678504",
+    "patterns": ["lonestarcasino\\.com"]
+  },
+  "spree.com": {
+    "domain": "spree.com",
+    "referralParam": "r",
+    "userReferralCode": "1450539",
+    "patterns": ["spree\\.com"]
+  },
+  "spinpals.com": {
+    "domain": "spinpals.com",
+    "referralParam": "referralcode",
+    "userReferralCode": "e851e1a8-c455-4a59-954d-b7fe0bbad04c",
+    "patterns": ["spinpals\\.com"]
+  },
+  "fortunewheelz.com": {
+    "domain": "fortunewheelz.com",
+    "referralParam": "invited_by",
+    "userReferralCode": "P36ZS6",
+    "patterns": ["fortunewheelz\\.com"]
+  },
+  "getzoot.us": {
+    "domain": "getzoot.us",
+    "referralParam": "referralCode",
+    "userReferralCode": "ZOOTwithJMENICHOLE",
+    "patterns": ["getzoot\\.us"]
+  },
+  "spinsala.com": {
+    "domain": "spinsala.com",
+    "referralParam": "invite",
+    "userReferralCode": "daym",
+    "patterns": ["spinsala\\.com"]
+  },
+  "legendz.com": {
+    "domain": "legendz.com",
+    "referralParam": "referred_by_id",
+    "userReferralCode": "221602",
+    "patterns": ["legendz\\.com"]
   }
 }

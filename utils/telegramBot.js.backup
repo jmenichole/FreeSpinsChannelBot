@@ -1,0 +1,135 @@
+const axios = require('axios');
+
+class TelegramBot {
+  constructor(botToken) {
+    this.botToken = botToken;
+    this.baseUrl = `https://api.telegram.org/bot${botToken}`;
+  }
+
+  /**
+   * Send a message to a Telegram chat
+   * @param {string} chatId - The chat ID to send message to
+   * @param {string} text - The message text
+   * @param {Object} options - Additional options
+   * @returns {Promise} API response
+   */
+  async sendMessage(chatId, text, options = {}) {
+    try {
+      const payload = {
+        chat_id: chatId,
+        text: text,
+        parse_mode: options.parse_mode || 'HTML',
+        disable_web_page_preview: options.disable_web_page_preview || false,
+        disable_notification: options.disable_notification || false,
+        ...options
+      };
+
+      const response = await axios.post(`${this.baseUrl}/sendMessage`, payload);
+      return response.data;
+    } catch (error) {
+      console.error('Error sending Telegram message:', error.response?.data || error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Get bot information
+   * @returns {Promise} Bot information
+   */
+  async getMe() {
+    try {
+      const response = await axios.get(`${this.baseUrl}/getMe`);
+      return response.data;
+    } catch (error) {
+      console.error('Error getting bot info:', error.response?.data || error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Format message for Discord to Telegram forwarding
+   * @param {Object} messageData - Processed message data
+   * @param {Object} discordMessage - Discord message object
+   * @returns {string} Formatted message
+   */
+  formatMessage(messageData, discordMessage) {
+    // Clean header with better spacing
+    let message = `🎰 <b>Free Spins Alert</b>\n`;
+    message += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+    
+    // Links section with cleaner format
+    messageData.links.forEach((linkData, index) => {
+      message += `� <b>${this.getDomainName(linkData.processed)}</b>\n`;
+      message += `${linkData.processed}\n`;
+      
+      if (linkData.modified) {
+        message += `✅ <i>Referral applied</i>\n`;
+      }
+      message += `\n`;
+    });
+    
+    // Source info in a compact format
+    message += `📍 <i>From: ${discordMessage.channel?.name || 'Discord'}</i>\n`;
+    if (discordMessage.author) {
+      message += `� <i>By: ${discordMessage.author.username}</i>\n`;
+    }
+    
+    // Original message content (cleaned up)
+    const originalText = this.cleanOriginalMessage(messageData.originalMessage, messageData.links);
+    if (originalText && originalText.length > 0) {
+      message += `\n💬 <i>"${originalText}"</i>`;
+    }
+    
+    return message;
+  }
+
+  /**
+   * Extract domain name from URL for cleaner display
+   * @param {string} url - The URL to extract domain from
+   * @returns {string} Clean domain name
+   */
+  getDomainName(url) {
+    try {
+      const domain = new URL(url).hostname.replace('www.', '');
+      // Capitalize first letter
+      return domain.charAt(0).toUpperCase() + domain.slice(1);
+    } catch (e) {
+      return 'Link';
+    }
+  }
+
+  /**
+   * Clean up original message text
+   * @param {string} originalMessage - The original message
+   * @param {Array} links - Array of link objects
+   * @returns {string} Cleaned message text
+   */
+  cleanOriginalMessage(originalMessage, links) {
+    let cleanText = originalMessage;
+    
+    // Remove all links from the text
+    links.forEach(link => {
+      cleanText = cleanText.replace(link.original, '').trim();
+    });
+    
+    // Clean up common patterns
+    cleanText = cleanText
+      .replace(/@All Freebies/g, '') // Remove mentions
+      .replace(/@\w+ Freebies/g, '')
+      .replace(/\*\*\[.*?\]\(.*?\)\*\*/g, '') // Remove markdown links
+      .replace(/\[.*?\]\(.*?\)/g, '') // Remove simple markdown links
+      .replace(/sweepscoinguide\.com/g, '') // Remove site mentions
+      .replace(/Submitted by \w+/g, '') // Remove attribution
+      .replace(/\s+/g, ' ') // Normalize whitespace
+      .trim();
+    
+    // Limit length and add ellipsis if too long
+    if (cleanText.length > 100) {
+      cleanText = cleanText.substring(0, 97) + '...';
+    }
+    
+    return cleanText;
+  }
+}
+
+module.exports = TelegramBot;
