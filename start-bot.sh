@@ -3,13 +3,24 @@
 # Auto-start script for FreeSpins Bot
 # Make this file executable with: chmod +x start-bot.sh
 
+set -euo pipefail
+
 echo "🚀 Starting FreeSpins Bot..."
+
+# Ensure logs directory exists
+mkdir -p logs
+
+# Load environment variables if .env exists
+if [ -f .env ]; then
+    # shellcheck disable=SC2046
+    export $(grep -v '^#' .env | xargs -I{} echo {})
+fi
 
 # Check if bot is already running
 if pgrep -f "node index.js" > /dev/null; then
-    echo "⚠️  Bot is already running!"
-    echo "Use './stop-bot.sh' to stop it first"
-    exit 1
+        echo "⚠️  Bot is already running!"
+        echo "Use './stop-bot.sh' to stop it first"
+        exit 1
 fi
 
 # Start the bot in background

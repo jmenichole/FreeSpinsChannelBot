@@ -21,8 +21,13 @@ client.commands = new Collection();
 
 const vettedCasinos = require('./vettedCasinos.json');
 
-// Initialize Telegram bot
-const telegramBot = new TelegramBot('8035077071:AAG9o-wlKbYn90X_PJyHSReVhVQEEAR3fHw');
+// Initialize Telegram bot (token from environment)
+const telegramToken = process.env.TELEGRAM_BOT_TOKEN;
+if (!telegramToken) {
+  console.error('Missing TELEGRAM_BOT_TOKEN in environment. Please set it in your .env file.');
+  process.exit(1);
+}
+const telegramBot = new TelegramBot(telegramToken);
 
 // Load commands
 const commandsPath = path.join(__dirname, 'commands');
@@ -106,7 +111,7 @@ client.on('messageCreate', async message => {
   }
 });
 
-client.once('ready', async () => {
+client.once('clientReady', async () => {
   console.log(`Bot ready as ${client.user.tag}`);
   
   // Initialize Discord logger
