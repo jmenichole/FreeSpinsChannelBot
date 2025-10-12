@@ -1,3 +1,10 @@
+/**
+ * FreeSpins Finder Discord Bot - Telegram Commands Utility
+ * 
+ * Copyright (c) 2025 jmenichole
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ */
+
 const affiliateLinks = require('../affiliateLinks.json');
 const { replaceReferralCode } = require('./linkProcessor');
 
