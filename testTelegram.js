@@ -1,3 +1,10 @@
+/**
+ * FreeSpins Finder Discord Bot - Telegram Integration Test
+ * 
+ * Copyright (c) 2025 jmenichole
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ */
+
 const TelegramBot = require('./utils/telegramBot');
 const { processMessage } = require('./utils/linkProcessor');
 

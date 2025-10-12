@@ -1,3 +1,10 @@
+/**
+ * FreeSpins Finder Discord Bot - Status Command
+ * 
+ * Copyright (c) 2025 jmenichole
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ */
+
 const { SlashCommandBuilder } = require('discord.js');
 const fs = require('fs');
 const path = require('path');

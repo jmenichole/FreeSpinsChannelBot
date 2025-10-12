@@ -1,3 +1,10 @@
+/**
+ * FreeSpins Finder Discord Bot - Catchup Command
+ * 
+ * Copyright (c) 2025 jmenichole
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ */
+
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const CatchupProcessor = require('../utils/catchup');
 const TelegramBot = require('../utils/telegramBot');

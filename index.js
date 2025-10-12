@@ -1,3 +1,13 @@
+/**
+ * FreeSpins Finder Discord Bot
+ * 
+ * Copyright (c) 2025 jmenichole
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ * This bot automates the submission and announcement of non-referral free spin links from community members.
+ * It also forwards Discord links to Telegram with automatic referral code replacement.
+ */
+
 const { Client, GatewayIntentBits, Collection } = require('discord.js');
 require('dotenv').config();
 const fs = require('fs');

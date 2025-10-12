@@ -1,3 +1,10 @@
+/**
+ * FreeSpins Finder Discord Bot - Deploy Commands Script
+ * 
+ * Copyright (c) 2025 jmenichole
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ */
+
 const { REST, Routes } = require('discord.js');
 require('dotenv').config();
 const fs = require('fs');

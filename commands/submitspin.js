@@ -1,3 +1,10 @@
+/**
+ * FreeSpins Finder Discord Bot - Submit Spin Command
+ * 
+ * Copyright (c) 2025 jmenichole
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ */
+
 const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const vettedCasinos = require('../vettedCasinos.json');
 
